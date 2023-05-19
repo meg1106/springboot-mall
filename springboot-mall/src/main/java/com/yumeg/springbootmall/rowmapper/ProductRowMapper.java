@@ -1,5 +1,6 @@
 package com.yumeg.springbootmall.rowmapper;
 
+import com.yumeg.springbootmall.constant.ProductCategory;
 import com.yumeg.springbootmall.model.Product;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -14,7 +15,14 @@ public class ProductRowMapper implements RowMapper<Product> {
         Product product = new Product();
         product.setProductId(rs.getInt("product_id"));
         product.setProductName(rs.getString("product_name"));
-        product.setCategory(rs.getString("category"));
+
+        String productStr = rs.getString("category");
+        ProductCategory category = ProductCategory.valueOf(productStr);
+        product.setCategory(category);
+
+        // product.setCategory(ProductCategory.valueOf(rs.getString("category")));
+        // 直接將ＤＢ取出來的String類型的字串，轉換成ProductCategory的Enum值，再傳入set方法中做設定
+
         product.setImageUrl(rs.getString("image_url"));
         product.setPrice(rs.getInt("price"));
         product.setStock(rs.getInt("stock"));
